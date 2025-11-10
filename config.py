@@ -21,7 +21,8 @@ JOBS_FILE_COLUMNS = {
 
 CAPABILITY_FILE_COLUMNS = {
     'job_code': 'Job Code',
-    'capability_internal': 'Capability Internal'
+    'capability_internal': 'Capability Internal',
+    'speed_check':'SpeedZone'
 }
 
 # Priority for jobs that cannot be done internally
