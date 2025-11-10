@@ -16,13 +16,19 @@ JOBS_FILE_COLUMNS = {
     'location': 'Location',
     'road': 'Road',
     'standard_job': 'Standard Job',
-    'due': 'Due'
+    'due': 'Due',
+    'lga': 'LGA'
 }
 
 CAPABILITY_FILE_COLUMNS = {
     'job_code': 'Job Code',
     'capability_internal': 'Capability Internal',
     'speed_check':'SpeedZone'
+}
+
+LGA_MAPPING_FILE_COLUMNS = {
+    'lga': 'LGA',
+    'area': 'Area'
 }
 
 # Priority for jobs that cannot be done internally

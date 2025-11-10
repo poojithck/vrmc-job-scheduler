@@ -24,8 +24,10 @@ def prepare_output(df):
         JOBS_FILE_COLUMNS['location'],
         JOBS_FILE_COLUMNS['road'],
         JOBS_FILE_COLUMNS['due'],
+        'Area',
         'can_do_internally',
-        'needs_capability_check'
+        'needs_capability_check',
+        'high_speed_zone'
     ]
     
     # Filter to only existing columns
@@ -36,6 +38,10 @@ def prepare_output(df):
     # Add flag columns with descriptive names
     output_df['Cannot_Do_Flag'] = ~output_df['can_do_internally']
     output_df['Capability_Check_Flag'] = output_df['needs_capability_check']
+    
+    # Add high speed zone flag if column exists
+    if 'high_speed_zone' in output_df.columns:
+        output_df['High_Speed_Zone_Flag'] = output_df['high_speed_zone']
     
     # Sort by priority (excluding -1, which goes to end)
     df_priority_minus_one = output_df[output_df['Priority'] == -1]
@@ -91,25 +97,31 @@ def create_summary_statistics(df):
     Returns:
         pd.DataFrame: Summary statistics
     """
+    metrics = [
+        'Total Jobs',
+        'Jobs We Can Do',
+        'Jobs We Cannot Do',
+        'Jobs Needing Capability Check',
+        'High Speed Zone Jobs (>80)',
+        'HAZARD Jobs',
+        'REPAIRS Jobs',
+        'SURVEY Jobs'
+    ]
+    
+    counts = [
+        len(df),
+        df['can_do_internally'].sum(),
+        (~df['can_do_internally']).sum(),
+        df['needs_capability_check'].sum(),
+        df['high_speed_zone'].sum() if 'high_speed_zone' in df.columns else 0,
+        (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'HAZARD').sum(),
+        (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'REPAIRS').sum(),
+        (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'SURVEY').sum()
+    ]
+    
     summary_data = {
-        'Metric': [
-            'Total Jobs',
-            'Jobs We Can Do',
-            'Jobs We Cannot Do',
-            'Jobs Needing Capability Check',
-            'HAZARD Jobs',
-            'REPAIRS Jobs',
-            'SURVEY Jobs'
-        ],
-        'Count': [
-            len(df),
-            df['can_do_internally'].sum(),
-            (~df['can_do_internally']).sum(),
-            df['needs_capability_check'].sum(),
-            (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'HAZARD').sum(),
-            (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'REPAIRS').sum(),
-            (df[JOBS_FILE_COLUMNS['parent_job_type']] == 'SURVEY').sum()
-        ]
+        'Metric': metrics,
+        'Count': counts
     }
     
     return pd.DataFrame(summary_data)
