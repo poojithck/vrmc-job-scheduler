@@ -60,11 +60,19 @@ def parse_date(date_string):
     Parse date string to datetime object.
     
     Args:
-        date_string (str): Date string in format dd/mm/yyyy hh:mm:ss AM/PM
+        date_string (str or pd.Timestamp): Date string in format dd/mm/yyyy hh:mm:ss AM/PM
         
     Returns:
         datetime: Parsed datetime object
     """
+    # If it's already a datetime/Timestamp object, return it
+    if isinstance(date_string, (datetime, pd.Timestamp)):
+        return date_string
+    
+    # If it's NaN or None, raise error
+    if pd.isna(date_string):
+        raise ValueError("Cannot parse NaN or None as date")
+    
     date_formats = [
         '%d/%m/%Y %I:%M:%S %p',  # 01/07/2024 11:26:45 AM
         '%d/%m/%Y %I:%M %p',      # 01/07/2024 11:26 AM
@@ -77,7 +85,7 @@ def parse_date(date_string):
         '%Y-%m-%d',               # 2024-07-01
     ]
     
-    date_string = date_string.strip()
+    date_string = str(date_string).strip()
     
     for fmt in date_formats:
         try:

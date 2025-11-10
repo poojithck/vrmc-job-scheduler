@@ -23,7 +23,7 @@ def check_capability(capability_value):
     }
     
     # Handle None or NaN values
-    if pd.isna(capability_value) or str(capability_value).strip().upper() == 'NONE':
+    if pd.isna(capability_value) or str(capability_value).strip().upper() == 'No Crew':
         result['can_do'] = False
         return result
     
@@ -49,17 +49,18 @@ def merge_capability_data(jobs_df, capability_df):
     job_col = JOBS_FILE_COLUMNS['standard_job']
     cap_job_col = CAPABILITY_FILE_COLUMNS['job_code']
     cap_internal_col = CAPABILITY_FILE_COLUMNS['capability_internal']
-    speed_zone_col = CAPABILITY_FILE_COLUMNS['speed_check']
+    speed_zone_col = JOBS_FILE_COLUMNS.get('speed_zone', 'SpeedZone')
     
     # Merge dataframes - include speed zone column
     merged_df = jobs_df.merge(
-        capability_df[[cap_job_col, cap_internal_col, speed_zone_col]],
+        capability_df[[cap_job_col, cap_internal_col]],
         left_on=job_col,
         right_on=cap_job_col,
         how='left'
     )
     
     # Apply capability checks
+    print(f"      Columns: {list(capability_df.columns)}")
     capability_checks = merged_df[cap_internal_col].apply(check_capability)
     
     merged_df['can_do_internally'] = capability_checks.apply(lambda x: x['can_do'])

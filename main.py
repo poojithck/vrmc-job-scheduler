@@ -18,7 +18,7 @@ def process_job_priorities(
     capability_file_path,
     reference_date,
     output_path='prioritized_jobs.xlsx',
-    capability_sheet_name='Sheet1 (2)',
+    capability_sheet_name='Sheet1',
     lga_mapping_file_path=None
 ):
     """
@@ -68,6 +68,7 @@ def process_job_priorities(
     print("\n[3/6] Loading capability data...")
     capability_df = load_capability_data(capability_file_path, capability_sheet_name)
     print(f"      Loaded {len(capability_df)} capability records")
+    print(f"      Columns: {list(capability_df.columns)}")
     
     # Step 3: Filter by date
     print(f"\n[4/6] Filtering jobs by reference date: {reference_date}")
@@ -114,8 +115,8 @@ def main():
     Main entry point with example usage.
     """
     # Example configuration
-    JOBS_FILE = 'Completed_HSE_FF 1.xlsx'  # or 'jobs_data.xlsx'
-    CAPABILITY_FILE = 'RM Codes Crew Capability.xlsx'
+    JOBS_FILE = 'Completed_HSE_FF.xlsx'  # or 'jobs_data.xlsx'
+    CAPABILITY_FILE = 'crew-capability-updated.xlsx'
     LGA_MAPPING_FILE = 'suburbs_lga_mapping.xlsx'  # Optional
     REFERENCE_DATE = '10/10/2024'  # Format: dd/mm/yyyy
     OUTPUT_FILE = 'prioritized_jobs_output.xlsx'

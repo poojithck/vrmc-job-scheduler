@@ -14,16 +14,16 @@ JOBS_FILE_COLUMNS = {
     'job_id': 'JobID',
     'parent_job_type': 'Parent Job Type',
     'location': 'Location',
-    'road': 'Road',
-    'standard_job': 'Standard Job',
+    'standard_job': 'JobCode',
     'due': 'Due',
-    'lga': 'LGA'
+    'lga': 'LGA',
+    'speed_zone':'SpeedZone'
 }
 
 CAPABILITY_FILE_COLUMNS = {
     'job_code': 'Job Code',
-    'capability_internal': 'Capability Internal',
-    'speed_check':'SpeedZone'
+    'capability_internal': 'Capability',
+    
 }
 
 LGA_MAPPING_FILE_COLUMNS = {

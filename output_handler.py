@@ -22,12 +22,12 @@ def prepare_output(df):
         JOBS_FILE_COLUMNS['parent_job_type'],
         JOBS_FILE_COLUMNS['standard_job'],
         JOBS_FILE_COLUMNS['location'],
-        JOBS_FILE_COLUMNS['road'],
         JOBS_FILE_COLUMNS['due'],
         'Area',
         'can_do_internally',
         'needs_capability_check',
-        'high_speed_zone'
+        'high_speed_zone',
+        'LGA'
     ]
     
     # Filter to only existing columns
